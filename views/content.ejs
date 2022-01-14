@@ -1,0 +1,26 @@
+<%- include('heading')  %> 
+<body>
+    <div class="form-imc">
+        <form action="/" method="post">
+            <div class='list-group'>
+                <div class='row mx-sm-1 mx-md-3 mx-lg-auto'>
+                    <div class='col'>
+                        <input class='form-control' type="text" name="altura" placeholder="Altura">
+                    </div>
+                </div>
+                <div class='row mx-sm-1 mx-md-3 mx-lg-auto'>
+                    <div class='col'>
+                        <input class='form-control' type="text" name="peso" placeholder="Peso">
+                    </div>
+                </div>
+                <div class='row mx-auto'>
+                    <div class='col'>
+                        <input class='btn btn-dark' type="submit" value="Calcular">
+                    </div>
+                </div>
+            </div>     
+        </form>
+    </div>
+    <%- include('result') %> 
+</body>
+<%- include('footer') %> 
