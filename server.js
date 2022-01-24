@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express();
+const calcStatus = require(__dirname + '/calcImc.js')
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}))
@@ -14,48 +15,22 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-    let resultimc = ''
+    let resultimc = {}
     if(req.body.altura !== '' && req.body.peso !== '')
     {
+        let peso = req.body.peso
         let altura = req.body.altura
-        if( altura.includes(',') ) altura = altura.replace(',', '.')
+        
+        if(altura.includes(',')) altura = altura.replace(',', '.')
+        if(peso.includes(',')) peso = peso.replace(',', '.')
+
         altura = parseFloat(altura)
+        peso = parseFloat(peso)
 
-        let peso = parseFloat(req.body.peso)
-        let imc = peso / ( Math.pow(altura, 2) )
+        resultimc = {estado: '', valor: 0, imagem: ''}
 
-        resultimc = {estado: '', valor: imc.toFixed(1), imagem: ''}
-
-        if(imc < 18.5)
-        {
-            resultimc.estado = 'Abaixo do peso'
-            resultimc.imagem = 'https://cdn-icons-png.flaticon.com/512/5559/5559962.png'
-        }
-        else if(imc < 25)
-        {
-            resultimc.estado = 'Peso ideal'
-            resultimc.imagem = 'https://cdn-icons-png.flaticon.com/512/5559/5559928.png'
-        }
-        else if(imc < 30)
-        {
-            resultimc.estado = 'Levemente acima do peso'
-            resultimc.imagem = 'https://cdn-icons-png.flaticon.com/512/5559/5559940.png'
-        }
-        else if(imc < 35)
-        {
-            resultimc.estado = 'Obesidade grau I'
-            resultimc.imagem = 'https://cdn-icons-png.flaticon.com/512/2307/2307829.png'
-        }
-        else if(imc < 40)
-        {
-            resultimc.estado = 'Obesidade grau II (severa)'
-            resultimc.imagem = 'https://cdn-icons-png.flaticon.com/512/2843/2843563.png'
-        }
-        else
-        {
-            resultimc.estado = 'Obesidade grau III (mórbida)'
-            resultimc.imagem = 'https://cdn-icons-png.flaticon.com/512/5571/5571435.png'
-        }
+        let aux = calcStatus(peso, altura)
+        resultimc = {estado: aux[0], valor: aux[1].toFixed(1), imagem: aux[2]}
     }
         
     res.render('content', {resultimc: resultimc})
