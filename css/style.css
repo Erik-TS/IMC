@@ -1,0 +1,23 @@
+body{
+  background-color: #D3DEDC;
+}
+
+.form-imc{
+  background-color: #A267AC;
+}
+
+.form-imc input{
+  margin: 0.5rem 0;
+}
+
+.form-imc button{
+  margin-bottom: 0.5rem 
+}
+
+footer{
+  background-color: #CE7BB0;
+}
+
+footer a{
+  color: #FFBCD1;
+}
